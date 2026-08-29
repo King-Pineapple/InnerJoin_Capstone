@@ -1,0 +1,68 @@
+Mirriams Questions
+Inner Joins
+20. List the description and amount of every transaction made by someone living in Durban.
+22. Find all transactions made in January 2025, along with the person's full name.
+
+LEFT JOIN
+25. Show all people and the number of transactions they've made, including 0 for those with none.
+27. List all people and a column that says 'Has activity' or 'No activity' based on whether they appear in transactions.
+
+RIGHT JOIN
+28. List every transaction along with the person's city — show NULL city for orphaned transactions.
+30. Show all transactions ordered by amount, including a flag for whether the person_id is valid.
+
+FULL OUTER JOIN
+31. Produce one combined view of people and transactions showing every person (even with no transactions) and every transaction (even orphaned), with NULLs on whichever side is missing.
+
+AGGREGATION + JOIN
+33. Find the total number of transactions and total amount per city.
+35. Find each person's smallest (most negative) transaction.
+37. Find the average number of transactions per person across the whole table.
+
+FILTERING + JOIN
+39. Find all people who made at least one transaction over 10,000.
+41. Find all transactions made by people NOT living in Cape Town.
+43. List people who have exactly one transaction (not zero, not many).
+
+SELF-JOIN / COMPARISON
+44. Find pairs of people born in the same year (self-join on people using date_of_birth).
+46. Find people whose total transaction amount is higher than the average across all people.
+
+MULTIPLE / CHAINED JOINS
+47. Imagine a third table `cities (city_name, region)`. Join people → transactions → cities to show each transaction's region.
+
+TRICKY EDGE CASES
+49. Find people who exist in `people` but whose person_id never appears as a foreign key anywhere (same idea as an unused customer).
+
+Krystals Questions
+INNER JOIN
+21. Show the full name and email of every person who has made at least one withdrawal.
+23. List every person-transaction pair where the transaction amount is negative (money going out).
+
+LEFT JOIN
+24. List every person along with their most recent transaction date (NULL if they have none).
+26. Find people whose only transactions (if any) are deposits — including people with zero transactions.
+
+RIGHT JOIN
+29. Find the total amount of money attached to transactions that have no matching person.
+
+Full OuterJoin
+32. From that FULL OUTER JOIN result, count how many rows have a NULL person_id vs how many have a NULL transaction_id.
+
+AGGREGATION + JOIN
+34. Find each person's largest single transaction (MAX amount).
+36. Rank people by total transaction volume (sum of absolute amount) from highest to lowest.
+38. Find which city has the highest total deposit amount.
+
+FILTERING + JOIN
+40. Find all people who have made both a deposit AND a withdrawal.
+42. Find people who made a transaction in February 2025 but not in January 2025.
+
+SELF-JOIN/ COMPARISON
+45. For each city with more than one person, list all the people in it side by side.
+
+MULTIPLE / CHAINED JOINS
+48. Imagine a third table `transaction_categories (transaction_type, category_group)`. Join transactions → transaction_categories → people to show each person's spending by category_group.
+
+TRICKY EDGE CASES
+50. Without using a WHERE clause, use conditional aggregation (CASE WHEN + SUM) to show each person's total deposits and total withdrawals as two separate columns in one row.
