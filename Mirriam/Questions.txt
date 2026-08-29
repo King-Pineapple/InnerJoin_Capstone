@@ -24,9 +24,8 @@ FILTERING + JOIN
 41. Find all transactions made by people NOT living in Cape Town.
 43. List people who have exactly one transaction (not zero, not many).
 
-SELF-JOIN / COMPARISON
-44. Find pairs of people born in the same year (self-join on people using date_of_birth).
-46. Find people whose total transaction amount is higher than the average across all people.
+SELF-JOIN/ COMPARISON
+45. For each city with more than one person, list all the people in it side by side.
 
 MULTIPLE / CHAINED JOINS
 47. Imagine a third table `cities (city_name, region)`. Join people → transactions → cities to show each transaction's region.
@@ -58,8 +57,9 @@ FILTERING + JOIN
 40. Find all people who have made both a deposit AND a withdrawal.
 42. Find people who made a transaction in February 2025 but not in January 2025.
 
-SELF-JOIN/ COMPARISON
-45. For each city with more than one person, list all the people in it side by side.
+SELF-JOIN / COMPARISON
+44. Find pairs of people born in the same year (self-join on people using date_of_birth).
+46. Find people whose total transaction amount is higher than the average across all people.
 
 MULTIPLE / CHAINED JOINS
 48. Imagine a third table `transaction_categories (transaction_type, category_group)`. Join transactions → transaction_categories → people to show each person's spending by category_group.
