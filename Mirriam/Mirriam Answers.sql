@@ -179,6 +179,31 @@ JOIN Bank_Transactions.dbo.transactions t
 JOIN Bank_Transactions.dbo.cities c
     ON p.city = c.city_name;
 
+--How I would do it with out creating a new table(krystal) or you can create a temp table
+SELECT 
+    t.transaction_id,
+    t.person_id,
+    t.amount,
+    p.first_name,
+    p.last_name,
+ case 
+   when p.city = 'Cape Town' then 'Western Cape'
+   when p.city = 'Bloemfontien' then 'Free State'
+   when p.city = 'Durban' then 'KwaZulu Natal'
+   when p.city = 'Johannesburg' then 'Gauteng'
+   when p.city = 'Port Elizabeth' then 'Eastern Cape'
+   when p.city = 'Pretoria' then 'Gauteng-Tswane'
+end as Regions
+FROM Bank_Transactions.dbo.people p
+JOIN Bank_Transactions.dbo.transactions t
+    ON p.person_id = t.person_id 
+group by 
+    t.transaction_id,
+    t.person_id,
+    t.amount,
+    p.first_name,
+    p.last_name,
+    p.city
 
 --TRICKY EDGE CASES
 --49. Find people who exist in `people` but whose person_id never appears as a foreign key anywhere (same idea as an unused customer).
