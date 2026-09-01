@@ -77,8 +77,8 @@ from (
     Select A.person_id, B.transaction_id
     from [Bank_Transactions].[dbo].[people]  A
     full outer join [Bank_Transactions].[dbo].[transactions] B 
-    on A.person_id = B.person_id
-) as Null_Transactions;
+    on A.person_id = B.person_id)
+    as Null_transactions
 
 --AGGREGATION + JOIN
 --34. Find each person's largest single transaction (MAX amount).
@@ -109,9 +109,6 @@ order by Total_Volume_Amount Desc
 
 --38. Find which city has the highest total deposit amount.
 Select 
-A.person_id,
-A.first_name,
-A.last_name,
 A.city,
 Max(B.amount) as Total_Volume_Per_City,
 B.transaction_type
@@ -177,18 +174,56 @@ Order by A.person_id, B.amount
 
 --MULTIPLE / CHAINED JOINS
 --48. Imagine a third table `transaction_categories (transaction_type, category_group)`. Join transactions → transaction_categories → people to show each person's spending by category_group.
+/*Create table #Transaction_categories
+(transaction_type varchar (250),
+Category_Group varchar (250)
+)
+Insert Into #Transaction_categories
+(transaction_type,Category_Group)
+Select 
+transaction_type,
+case
+When transaction_type = 'Deposit' then 'Deposits'
+When transaction_type = 'Withdrawal'then 'Withdrawals'
+When transaction_type = 'Payment'then 'Payments'
+end
+from [Bank_Transactions].[dbo].[transactions]
+*/
+
 Select 
 A.person_id,
 A.first_name,
 A.last_name,
-case
-When B.transaction_type = 'Deposit' then 'Deposits'
-When B.transaction_type = 'Withdrawal'then 'Withdrawals'
-When B.transaction_type = 'Payment'then 'Payments'
-end as Category_group,
+B.transaction_type,
+C.Category_Group,
 sum(abs(B.amount)) as Total_Spending
 from [Bank_Transactions].[dbo].[people] A
-inner join
+join
+[Bank_Transactions].[dbo].[transactions] B
+on A.person_id=B.person_id
+join #Transaction_categories C
+on C.transaction_type = B.transaction_type
+group by
+A.person_id,
+A.first_name,
+A.last_name,
+B.transaction_type,
+C.Category_Group
+
+--or
+Select 
+A.person_id,
+A.first_name,
+A.last_name,
+B.transaction_type,
+sum(abs(B.amount)) as Total_Spending,
+case
+When transaction_type = 'Deposit' then 'Deposits'
+When transaction_type = 'Withdrawal'then 'Withdrawals'
+When transaction_type = 'Payment'then 'Payments'
+end as Category_Group
+from [Bank_Transactions].[dbo].[people] A
+join
 [Bank_Transactions].[dbo].[transactions] B
 on A.person_id=B.person_id
 group by
