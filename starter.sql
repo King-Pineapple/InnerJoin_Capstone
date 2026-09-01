@@ -89,3 +89,86 @@ INSERT INTO Bank_Transactions.dbo.transactions (transaction_id, person_id, trans
 (48, 6, '2025-02-21', 'Salary Deposit',         9800.00, 'Deposit'),
 (49, 7, '2025-02-22', 'Insurance Payment',     -1100.00, 'Payment'),
 (50, 8, '2025-02-23', 'Freelance Payment',      3800.00, 'Deposit');
+
+--24. List every person along with their most recent transaction date (NULL if they have none). 
+--very good example of how LEFT JOIN, MAX(), GROUP BY, and ORDER BY work together.
+--The p. means the column comes from the people table.
+
+--These are the columns I want to see in my result.
+--person_id
+--first_name
+--last_name
+--most_recent_transaction_date
+SELECT
+    p.person_id,
+    p.first_name,
+    p.last_name,
+    MAX(t.transaction_date) AS most_recent_transaction_date
+FROM Bank_Transactions.dbo.people p
+LEFT JOIN Bank_Transactions.dbo.transactions t
+    ON p.person_id = t.person_id
+GROUP BY
+    p.person_id,
+    p.first_name,
+    p.last_name
+ORDER BY p.person_id;
+
+--25. Show all people and the number of transactions they've made, including 0 for those with none.
+
+SELECT
+    p.person_id,
+    p.first_name,
+    p.last_name,
+    COUNT(t.transaction_id) AS transaction_count
+FROM Bank_Transactions.dbo.people p
+LEFT JOIN Bank_Transactions.dbo.transactions t
+    ON p.person_id = t.person_id
+GROUP BY
+    p.person_id,
+    p.first_name,
+    p.last_name
+ORDER BY p.person_id;
+
+--26. Find people whose only transactions (if any) are deposits — including people with zero transactions.
+
+SELECT
+    p.person_id,
+    p.first_name,
+    p.last_name
+FROM Bank_Transactions.dbo.people p
+LEFT JOIN Bank_Transactions.dbo.transactions t
+    ON p.person_id = t.person_id
+GROUP BY
+    p.person_id,
+    p.first_name,
+    p.last_name
+HAVING
+    SUM(
+        CASE
+            WHEN t.transaction_id IS NOT NULL
+                 AND t.transaction_type <> 'Deposit'
+            THEN 1
+            ELSE 0
+        END
+    ) = 0
+ORDER BY p.person_id;
+
+--27. List all people and a column that says 'Has activity' or 'No activity' based on whether they appear in transactions.
+
+SELECT
+    p.person_id,
+    p.first_name,
+    p.last_name,
+    CASE
+        WHEN t.person_id IS NOT NULL THEN 'Has activity'
+        ELSE 'No activity'
+    END AS activity_status
+FROM Bank_Transactions.dbo.people p
+LEFT JOIN Bank_Transactions.dbo.transactions t
+    ON p.person_id = t.person_id
+GROUP BY
+    p.person_id,
+    p.first_name,
+    p.last_name,
+    t.person_id
+ORDER BY p.person_id;
