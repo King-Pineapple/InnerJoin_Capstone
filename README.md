@@ -264,9 +264,22 @@ The exercises progressed from basic JOIN operations to more advanced techniques 
 
 This provided practical experience in using SQL to solve real-world data questions and strengthened our understanding of how relational databases work.
 
+## 🤝 Collaboration
+
+This project was completed collaboratively by:
+
+**Krystal & Mirriam**
+
+To ensure that the workload was shared fairly, we split the SQL questions as equally as we could between us. Each person was responsible for solving their assigned questions independently, which gave us the opportunity to apply the SQL concepts individually while still working toward the same project goal.
+
+After completing our assigned questions, we reviewed each other’s answers. This allowed us to compare our SQL logic, identify errors or areas for improvement, and discuss different approaches to solving the same problem. Reviewing each other’s work also helped us strengthen our understanding of JOINs, filtering, aggregation, and relational database concepts.
+
+The collaboration helped reinforce the importance of **clear communication, independent problem-solving, peer review, and validating SQL results** to ensure that queries correctly answered the intended business questions.
+
+
 👩‍💻 Authors
 
-Krystal
+Krystal &
 Mirriam
 
 Data Engineering Project — SQL JOIN Practice
