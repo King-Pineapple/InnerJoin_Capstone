@@ -49,3 +49,5 @@ MULTIPLE / CHAINED JOINS
 TRICKY EDGE CASES
 49. Find people who exist in `people` but whose person_id never appears as a foreign key anywhere (same idea as an unused customer).
 50. Without using a WHERE clause, use conditional aggregation (CASE WHEN + SUM) to show each person's total deposits and total withdrawals as two separate columns in one row.
+
+50. Without using a WHERE clause, use conditional aggregation (CASE WHEN + SUM) to show each person's total deposits and total withdrawals as two separate columns in one row.

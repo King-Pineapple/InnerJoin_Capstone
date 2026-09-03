@@ -99,7 +99,7 @@ Select
 A.person_id,
 A.first_name,
 A.last_name,
-Sum(abs(B.amount)) as Total_Volume_Amount
+Sum(abs(B.amount)) as Total_Volume_Amount,
 from [Bank_Transactions].[dbo].[people] A
 join
 [Bank_Transactions].[dbo].[transactions] B
@@ -164,7 +164,7 @@ Select
 A.person_id,
 avg(Abs(B.amount)) as Avg_Amount_Spent,
 sum(abs(B.amount)) as Total_Amount
-from [Bank_Transactions].[dbo].[people] A
+from [Bank_Transactions].[dbo].[transactions] A
 join
 [Bank_Transactions].[dbo].[transactions] B
 on A.person_id=B.person_id
@@ -174,11 +174,11 @@ Order by A.person_id, B.amount
 
 --MULTIPLE / CHAINED JOINS
 --48. Imagine a third table `transaction_categories (transaction_type, category_group)`. Join transactions → transaction_categories → people to show each person's spending by category_group.
-/*Create table #Transaction_categories
+Create table Transaction_categories
 (transaction_type varchar (250),
 Category_Group varchar (250)
 )
-Insert Into #Transaction_categories
+Insert Into Transaction_categories
 (transaction_type,Category_Group)
 Select 
 transaction_type,
@@ -188,7 +188,7 @@ When transaction_type = 'Withdrawal'then 'Withdrawals'
 When transaction_type = 'Payment'then 'Payments'
 end
 from [Bank_Transactions].[dbo].[transactions]
-*/
+
 
 Select 
 A.person_id,
@@ -201,7 +201,7 @@ from [Bank_Transactions].[dbo].[people] A
 join
 [Bank_Transactions].[dbo].[transactions] B
 on A.person_id=B.person_id
-join #Transaction_categories C
+join [Bank_Transactions].[dbo].[Transaction_categories] C
 on C.transaction_type = B.transaction_type
 group by
 A.person_id,
@@ -227,10 +227,7 @@ join
 [Bank_Transactions].[dbo].[transactions] B
 on A.person_id=B.person_id
 group by
-A.person_id,
-A.first_name,
-A.last_name,
-B.transaction_type
+A.person_id,A.first_name,A.last_name,B.transaction_type
 
 --TRICKY EDGE CASES
 --50. Without using a WHERE clause, use conditional aggregation (CASE WHEN + SUM) to show each person's total deposits and total withdrawals as two separate columns in one row.
