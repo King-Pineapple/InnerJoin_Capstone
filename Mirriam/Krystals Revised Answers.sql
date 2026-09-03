@@ -10,6 +10,7 @@ Select
 A.person_id,
 A.first_name,
 A.last_name,
+A.email,
 B.transaction_type
 from [Bank_Transactions].[dbo].[people] A
 inner join
@@ -17,6 +18,7 @@ inner join
 on A.person_id=B.person_id
 where transaction_type = 'Withdrawal'
 Order by A.person_id
+
 --23. List every person-transaction pair where the transaction amount is negative (money going out).
 Select 
 A.person_id,
@@ -32,15 +34,16 @@ where B.amount like '%-%'
 
 --LEFT JOIN
 --24. List every person along with their most recent transaction date (NULL if they have none).
-Select 
+Select distinct top 10 
+B.transaction_date,
 A.person_id,
 A.first_name,
-A.last_name,
-B.transaction_date
+A.last_name
 from [Bank_Transactions].[dbo].[people] A
 left join
 [Bank_Transactions].[dbo].[transactions] B
 on A.person_id=B.person_id
+order by B.transaction_date Desc
 
 --26. Find people whose only transactions (if any) are deposits — including people with zero transactions.
 Select 
@@ -58,15 +61,12 @@ where amount >= 0 and transaction_type ='deposit'
 --RIGHT JOIN
 --29. Find the total amount of money attached to transactions that have no matching person.
 Select 
-A.person_id,
-Sum(Abs(B.amount)) as Total_Unassigned,
-B.transaction_type
+Sum(abs(B.amount)) as Total_Unassigned --abs is when you take a negative amount and converts it to a positive amount
 from [Bank_Transactions].[dbo].[people] A
 right join
 [Bank_Transactions].[dbo].[transactions] B
 on A.person_id=B.person_id
 where B.person_id >10
-group by A.person_id, transaction_type
 
 --Full OuterJoin
 --32. From that FULL OUTER JOIN result, count how many rows have a NULL person_id vs how many have a NULL transaction_id.
@@ -99,7 +99,7 @@ Select
 A.person_id,
 A.first_name,
 A.last_name,
-Sum(abs(B.amount)) as Total_Volume_Amount,
+Sum(abs(B.amount)) as Total_Volume_Amount
 from [Bank_Transactions].[dbo].[people] A
 join
 [Bank_Transactions].[dbo].[transactions] B
