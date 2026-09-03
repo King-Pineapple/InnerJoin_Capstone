@@ -115,12 +115,11 @@ GROUP BY t.person_id
 ORDER BY smallest_transaction;
 */
 
-SELECT p.[person_id], p.[first_name], p.[last_name], t.[transaction_id],  MIN(t.amount) AS smallest_amount
-FROM Bank_Transactions.dbo.transactions t 
+SELECT p.[person_id], p.[first_name], p.[last_name], t.[transaction_id], t.[amount]
+FROM Bank_Transactions.dbo.transactions t
 JOIN Bank_Transactions.dbo.people p
      ON p.person_id = t.person_id
-GROUP BY p.[person_id], p.[first_name], p.[last_name], t.[transaction_id] 
-ORDER BY smallest_amount;
+WHERE t.[amount] like '%-%';
 
 
 --37. Find the average number of transactions per person across the whole table.
